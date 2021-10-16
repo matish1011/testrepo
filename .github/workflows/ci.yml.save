@@ -1,0 +1,56 @@
+name: Continuous CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+
+      # Install newman globally
+      - name: Install newman
+        run: |
+         npm install -g newman
+         npm install -g newman-reporter-slackmsg
+         npm install -g newman-reporter-htmlextra
+
+        # npm install 
+
+
+      # Make directory to upload test results 
+      - name: Make Directory for Results
+        run: mkdir -p testResults
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      # Run postman collection
+      - name: Run Postman Collection
+        run: |
+         6e4c16a723c843b9e7d3fa795cc7a5731 -e https://a>
+         newman run ${{secrets.COLLECTION_URL}} -e ${{secrets.ENVIRONMENT_URL}} -r htmlextra --reporter-htmlextra-hideRequestBody "Login" --reporter-htmlextra-export testResults/htmlreport.>
+        #  newman run ${{secrets.COLLECTION_URL}} -e ${{secrets.ENVIRONMENT_URL}} --suppress-exit-code -r slackmsg --reporter-slackmsg-webhookurl ${{secrets.SLACK_WEBHOOK_URL}}
+
+      # Upload the contents of Test Results directory to workspace
+      - name: Output the run results
+        uses: actions/upload-artifact@v2
+        with:
+         name: DEL Screening ${{steps.date.outputs.date}}
+         path: testResults
