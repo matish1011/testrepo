@@ -47,7 +47,7 @@ jobs:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           OAUTH_TOKEN: ${{ secrets.OAUTH_TOKEN }}
         run: |
-          newman run $COLLECTION_URL -x -r slackreporter,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-title "Corinth API Test Report" --reporter-htmlextra-hideResponseBody "Auth Request" --reporter-slackreporter-webhookurl $WEBHOOK_URL --reporter-slackreporter-token $OAUTH_TOKEN --reporter-slackreporter-chanel 'delphi-corinth-test'
+          newman run $COLLECTION_URL -x -r slackreporter,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-title "Corinth API Test Report" --reporter-htmlextra-hideRequestBody "Login" --reporter-htmlextra-hideResponseBody "Auth Request" --reporter-slackreporter-webhookurl $WEBHOOK_URL --reporter-slackreporter-token $OAUTH_TOKEN --reporter-slackreporter-chanel 'delphi-corinth-test'
 
 
       # Upload the contents of Test Results directory to workspace
