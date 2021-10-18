@@ -44,7 +44,7 @@ jobs:
       # Run postman collection
       - name: Run Postman Collection
         run: |
-          newman run https://api.getpostman.com/collections/12405857-6fb53e6d-410c-4b9c-be3a-53f6edcad856?apikey=PMAK-616adf2705876300343d1794-4673d954114af3dee3e19175ef02da182f --suppress-exit-code -r slackreporter --reporter-slackreporter-webhookurl https://hooks.slack.com/services/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
+          newman run https://api.getpostman.com/collections/12405857-6fb53e6d-410c-4b9c-be3a-53f6edcad856?apikey=PMAK-616adf2705876300343d1794-4673d954114af3dee3e19175ef02da182f --suppress-exit-code -r slackreporter --reporter-slackreporter-webhookurl https://hooks.slack.com/services/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
 
        #  newman run https://api.getpostman.com/collections/10326541-047433a4-2e51-414c-bf43-9d9c87affa49?apikey=PMAK-6156cf4f2a449400290f4546-36e4c16a723c843b9e7d3fa795cc7a5731 -e https://api.getpostman.com/environments/10326541-c8efda3a-6719-4504-b7e9-59886123b2e7?apikey=PMAK-6156cf4f2a449400290f4546-36e4c16a723c843b9e7d3fa795cc7a5731 --suppress-exit-code -r slackreporter --reporter-slackreporter-webhookurl https://hooks.slack.com/services/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
        #  newman run https://api.getpostman.com/collections/10326541-047433a4-2e51-414c-bf43-9d9c87affa49?apikey=PMAK-6156cf4f2a449400290f4546-36e4c16a723c843b9e7d3fa795cc7a5731 -e https://api.getpostman.com/environments/10326541-c8efda3a-6719-4504-b7e9-59886123b2e7?apikey=PMAK-6156cf4f2a449400290f4546-36e4c16a723c843b9e7d3fa795cc7a5731
