@@ -23,11 +23,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
       
-      #Environment variables  
-        env:
-          COLLECTION_URL: ${{secrets.COLLECTION_URL}}
-          WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
-          OAUTH_TOKEN: ${{secrets.OAUTH_TOKEN}}
+
 
       # Install newman globally
       - name: Install newman
@@ -48,7 +44,11 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       # Run postman collection
-      - name: Run Postman Collection
+      - name: Run Postman Collection 
+        env:
+          COLLECTION_URL: ${{secrets.COLLECTION_URL}}
+          WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+          OAUTH_TOKEN: ${{secrets.OAUTH_TOKEN}}
         run: |
           newman run "%COLLECTION_URL" --suppress-exit-code -r slackreporter --reporter-slackreporter-webhookurl "%WEBHOOK_URL" --reporter-slackreporter-token "%OAUTH_TOKEN" --reporter-slackreporter-chanel 'delphi-corinth-test'
 
