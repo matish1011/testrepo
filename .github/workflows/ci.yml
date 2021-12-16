@@ -29,24 +29,26 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-      # Run postman collection in DEV server
-      - name: Run Postman Collection
+      # Set environment variable for DEV server
+      - name: Set environment variable for DEV
         if: github.ref == 'refs/heads/dev'
         env:
-          DEV_COLLECTION_URL: ${{ secrets.DEV_COLLECTION_URL }}
+          COLLECTION_URL: ${{ secrets.dev.COLLECTION_URL }}
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           OAUTH_TOKEN: ${{ secrets.OAUTH_TOKEN }}
-        run: |
-          newman run $DEV_COLLECTION_URL -x -r slackreporter,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-title "Corinth API Test Report - DEV Server" --reporter-htmlextra-hideRequestBody "Create a user, Create a user Copy" --reporter-htmlextra-hideResponseBody "Create a user" --reporter-slackreporter-webhookurl $WEBHOOK_URL --reporter-slackreporter-token $OAUTH_TOKEN --reporter-slackreporter-chanel 'delphi-corinth-test'
-      # Run postman collection in QA server
-      - name: Run Postman Collection
+          NAME: 'DEV'
+      # Set environment variable for QA server
+      - name: Set environment variable for QA
         if: github.ref == 'refs/heads/qa'
         env:
-          QA_COLLECTION_URL: ${{ secrets.QA_COLLECTION_URL }}
+          COLLECTION_URL: ${{ secrets.qa.COLLECTION_URL }}
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           OAUTH_TOKEN: ${{ secrets.OAUTH_TOKEN }}
+          NAME: 'QA'
+      - name: Run postman collection
         run: |
-          newman run $QA_COLLECTION_URL -x -r slackreporter,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-title "Corinth API Test Report - QA Server" --reporter-htmlextra-hideRequestBody "Create a user, Create a user Copy" --reporter-htmlextra-hideResponseBody "Create a user" --reporter-slackreporter-webhookurl $WEBHOOK_URL --reporter-slackreporter-token $OAUTH_TOKEN --reporter-slackreporter-chanel 'delphi-corinth-test'
+        run: |
+          newman run $COLLECTION_URL -x -r slackreporter,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-title "Corinth API Test Report $NAME" --reporter-htmlextra-hideRequestBody "Create a user, Create a user Copy" --reporter-htmlextra-hideResponseBody "Create a user" --reporter-slackreporter-webhookurl $WEBHOOK_URL --reporter-slackreporter-token $OAUTH_TOKEN --reporter-slackreporter-chanel 'delphi-corinth-test'
       # Upload the contents of Test Results directory to workspace
       - name: Output the run results
         uses: actions/upload-artifact@v2
