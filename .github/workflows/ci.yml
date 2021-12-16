@@ -4,7 +4,7 @@ on:
     branches:
       - qa
 jobs:
-  dev:
+  qa:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -35,7 +35,7 @@ jobs:
       # Run postman collection
 
       - name: Run postman collection
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/qa'
         
         env:
           COLLECTION_URL: ${{ secrets.COLLECTION_URL }}
