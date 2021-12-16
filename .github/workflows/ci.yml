@@ -1,4 +1,8 @@
 name: Continuous CI
+on:
+  push:
+    branches:
+      - dev
 jobs:
   dev:
     runs-on: ubuntu-latest
