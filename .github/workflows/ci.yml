@@ -11,24 +11,29 @@ jobs:
         node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     environment: dev
+
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
+
       # Install newman globally
       - name: Install newman
         run: |
          npm install -g newman
          npm install -g newman-reporter-slackreporter
          npm install -g newman-reporter-htmlextra
+
       # Make directory to upload test results 
       - name: Make Directory for Results
         run: mkdir -p testResults
       # Get current date
+
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       # Run postman collection
+
       - name: Run postman collection
         if: github.ref == 'refs/heads/dev'
         
@@ -39,6 +44,7 @@ jobs:
           NAME: 'DEV'
         run: |
           newman run $COLLECTION_URL -x -r slackreporter,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-title "Corinth API Test Report $NAME" --reporter-htmlextra-hideRequestBody "Create a user, Create a user Copy" --reporter-htmlextra-hideResponseBody "Create a user" --reporter-slackreporter-webhookurl $WEBHOOK_URL --reporter-slackreporter-token $OAUTH_TOKEN --reporter-slackreporter-chanel 'delphi-corinth-test'
+      
       # Upload the contents of Test Results directory to workspace
       - name: Output the run results
         uses: actions/upload-artifact@v2
