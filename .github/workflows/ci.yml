@@ -11,14 +11,14 @@ jobs:
       matrix:
         node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    - name: Check if the branch is dev
-      if: github.ref == 'refs/heads/dev'
-      env:
-        server: dev
-    - name: Check if the branch is qa
-      if: github.ref == 'refs/heads/qa'
-      env:
-        server: qa
+    name: Check if the branch is dev
+    -  if: github.ref == 'refs/heads/dev'
+        env:
+          server: dev
+    name: Check if the branch is qa
+    - if: github.ref == 'refs/heads/qa'
+        env:
+          server: qa
     environment: '$server'
     steps:
       - uses: actions/checkout@v2
