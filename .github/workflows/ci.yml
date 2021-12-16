@@ -30,6 +30,7 @@ jobs:
       # Run postman collection
       - name: Run postman collection
         if: github.ref == 'refs/heads/dev'
+        environment: dev
         env:
           COLLECTION_URL: ${{ secrets.COLLECTION_URL }}
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
