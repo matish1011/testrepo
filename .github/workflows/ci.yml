@@ -37,6 +37,7 @@ jobs:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           OAUTH_TOKEN: ${{ secrets.OAUTH_TOKEN }}
           NAME: 'DEV'
+        run: echo "DEV ENVIRONMENT VARIABLE SAVED SUCCESSFULLY"
       # Set environment variable for QA server
       - name: Set environment variable for QA
         if: github.ref == 'refs/heads/qa'
@@ -45,8 +46,8 @@ jobs:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
           OAUTH_TOKEN: ${{ secrets.OAUTH_TOKEN }}
           NAME: 'QA'
+        run: echo "DEV ENVIRONMENT VARIABLE SAVED SUCCESSFULLY"
       - name: Run postman collection
-        run: |
         run: |
           newman run $COLLECTION_URL -x -r slackreporter,htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-title "Corinth API Test Report $NAME" --reporter-htmlextra-hideRequestBody "Create a user, Create a user Copy" --reporter-htmlextra-hideResponseBody "Create a user" --reporter-slackreporter-webhookurl $WEBHOOK_URL --reporter-slackreporter-token $OAUTH_TOKEN --reporter-slackreporter-chanel 'delphi-corinth-test'
       # Upload the contents of Test Results directory to workspace
